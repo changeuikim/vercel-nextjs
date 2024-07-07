@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import prisma from 'lib/prisma';
 
-async function fetchPost(id: string) {
-  const post = {
-    id: '1',
-    title: 'Prisma는 Next.js에 최적화된 ORM입니다',
-    content:
-      '[Prisma](https://github.com/prisma/prisma)와 Next.js는 꽤 잘 어울립니다.',
-    published: false,
-    author: {
-      name: '익명의 작가',
-      email: 'noname@email.com',
+async function fetchPost(id: String) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: Number(id),
     },
-  };
+    include: {
+      author: {
+        select: { name: true, email: true },
+      },
+    },
+  });
   return post;
 }
 

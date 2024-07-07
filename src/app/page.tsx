@@ -1,20 +1,16 @@
 import React from 'react';
 import Post, { PostProps } from '@/components/Post';
+import prisma from 'lib/prisma';
 
 async function fetchFeed() {
-  const feed = [
-    {
-      id: '1',
-      title: 'Prisma는 Next.js에 최적화된 ORM입니다',
-      content:
-        '[Prisma](https://github.com/prisma/prisma)와 Next.js는 꽤 잘 어울립니다.',
-      published: false,
+  const feed = await prisma.post.findMany({
+    where: { published: true },
+    include: {
       author: {
-        name: '익명의 작가',
-        email: 'noname@email.com',
+        select: { name: true, email: true },
       },
     },
-  ];
+  });
   return feed;
 }
 
