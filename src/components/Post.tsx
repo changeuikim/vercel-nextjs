@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 
 export type PostProps = {
-  id: string;
+  id: number;
   title: string;
   author: {
     name: string | null;
